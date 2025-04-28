@@ -1,0 +1,156 @@
+/* src/pages/Login/Login.css */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #F1EFEC; /* Cream background */
+}
+
+.login-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(3, 3, 3, 0.08); /* Dark shadow with low opacity */
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 1.8rem;
+  color: #48A6A7; /* Teal for heading */
+  font-size: 1.9rem;
+}
+
+.form-group {
+  margin-bottom: 1.4rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+  color: #123458; /* Dark blue for text */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #D4C9BE; /* Beige border */
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #48A6A7; /* Teal focus border */
+  box-shadow: 0 0 0 3px rgba(72, 166, 167, 0.1); /* Teal focus shadow */
+}
+
+.input-error {
+  border-color: #dc2626; /* Keeping red for errors */
+}
+
+.login-btn {
+  width: 100%;
+  padding: 0.9rem;
+  background-color: #48A6A7; /* Teal button */
+  color: #F1EFEC; /* Cream text */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1.8rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.login-btn:hover {
+  background-color: #3a9596; /* Darker teal on hover */
+}
+
+.login-btn:disabled {
+  background-color: #9ACBD0; /* Light teal for disabled */
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(241, 239, 236, 0.3); /* Cream with opacity */
+  border-radius: 50%;
+  border-top-color: #F1EFEC; /* Cream */
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: #dc2626; /* Keeping red for errors */
+  background-color: #fee2e2;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.forgot-password-container {
+  margin-top: 0.5rem;
+}
+
+.forgot-password-link {
+  color: #48A6A7; /* Teal */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+.auth-links {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.register-prompt {
+  color: #123458; /* Dark blue */
+}
+
+.register-link {
+  color: #48A6A7; /* Teal */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+/* Accessibility focus styles */
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid #48A6A7; /* Teal */
+  outline-offset: 2px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .login-container {
+      padding: 1rem;
+  }
+
+  .login-card {
+      padding: 1.5rem;
+  }
+}
