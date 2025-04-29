@@ -6,7 +6,7 @@ import './Login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: ''
   });
   const [error, setError] = useState('');
@@ -17,19 +17,16 @@ const Login = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Check for registration success state when component mounts
     if (location.state?.registrationSuccess) {
       setSuccessMessage('Registration successful! Please login');
       
-      // Pre-fill email if it was passed from registration
-      if (location.state?.registeredEmail) {
+      if (location.state?.registeredUsername) {
         setFormData(prev => ({
           ...prev,
-          email: location.state.registeredEmail
+          username: location.state.registeredUsername
         }));
       }
 
-      // Clear the location state to prevent showing the message again on refresh
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [location, navigate]);
@@ -47,70 +44,82 @@ const Login = () => {
     setLoading(true);
     setError('');
     setSuccessMessage('');
-
-    // Basic client-side validation
-    if (!formData.email.trim()) {
-      setError('Email is required');
+  
+    // Validate form inputs
+    if (!formData.username.trim()) {
+      setError('Username is required');
       setLoading(false);
       return;
     }
-
+  
     if (!formData.password) {
       setError('Password is required');
       setLoading(false);
       return;
     }
-
+  
     try {
-      const response = await AuthService.login({
-        email: formData.email.trim().toLowerCase(),
+      // Call AuthService.login
+      const { user, token } = await AuthService.login({
+        username: formData.username.trim().toLowerCase(),
         password: formData.password
       });
-
-      if (!response?.user || !response?.token) {
-        throw new Error('Invalid server response');
+  
+      // Login to auth context
+      login(user, token);
+  
+      // Redirect based on role
+      switch (user.role) {
+        case 'ADMIN':
+          navigate('/admin/dashboard');
+          break;
+        case 'DOCTOR':
+          navigate('/doctor/dashboard');
+          break;
+        case 'NURSE':
+          navigate('/nurse/dashboard');
+          break;
+        case 'RECEPTIONIST':
+          navigate('/receptionist/dashboard');
+          break;
+        case 'PATIENT':
+          navigate('/patient/dashboard');
+          break;
+        default:
+          throw new Error('Unknown role, cannot navigate');
       }
-
-      // Check if role exists and is valid
-      if (!response.user.role || !['ROLE_ADMIN', 'ROLE_STUDENT'].includes(response.user.role)) {
-        throw new Error('Invalid user role');
-      }
-
-      // Save user data and token
-      login(response.user, response.token);
-
+  
     } catch (err) {
+      console.error('Login error:', err);
+      
       let errorMessage = 'Login failed. Please try again.';
       
-      if (err.response) {
-        // Handle HTTP errors
-        errorMessage = err.response.data?.message || 
-                      err.response.data?.error || 
-                      'Invalid credentials';
-      } else if (err.message) {
-        // Handle custom errors
+      if (err.message) {
         errorMessage = err.message;
       }
-
+  
+      if (errorMessage.toLowerCase().includes('credentials') || 
+          errorMessage.toLowerCase().includes('password')) {
+        errorMessage = 'Invalid username or password';
+      }
+  
       setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2>Login to BookVault</h2>
+        <h2>Login to Medicare</h2>
         
-        {/* Success message from registration */}
         {successMessage && (
           <div className="success-message">
             {successMessage}
           </div>
         )}
 
-        {/* Error message from login attempt */}
         {error && (
           <div className="error-message">
             {error}
@@ -127,18 +136,18 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} noValidate>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="username">Username</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
               onChange={handleChange}
               required
-              placeholder="Enter your email"
+              placeholder="Enter your username"
               autoComplete="username"
               className={error ? 'input-error' : ''}
-              aria-describedby={error ? "email-error" : undefined}
+              aria-describedby={error ? "username-error" : undefined}
             />
           </div>
 

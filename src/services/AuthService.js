@@ -35,32 +35,62 @@ export const register = async (registrationData) => {
 
 export const login = async (credentials) => {
   try {
-    const { data } = await api.post('/auth/login', {
-      email: credentials.email.trim().toLowerCase(),
+    const response = await api.post('/auth/login', {
+      username: credentials.username.trim().toLowerCase(),
       password: credentials.password
     });
 
-    if (!data || !data.token || !data.user) {
-      throw new Error('Invalid login response structure');
+    const { data } = response;
+
+    // Debugging: Log the full response
+    console.log('Login API Response:', data);
+
+    // Validate response structure
+    if (!data?.token) {
+      throw new Error('Authentication token is missing');
     }
 
-    if (!['ROLE_ADMIN', 'ROLE_STUDENT'].includes(data.user.role)) {
-      throw new Error('Invalid user role');
+    if (!data?.user || typeof data.user !== 'object') {
+      throw new Error('User data is missing or invalid');
     }
 
+    const requiredUserFields = ['userId', 'username', 'role'];
+    for (const field of requiredUserFields) {
+      if (!data.user[field]) {
+        throw new Error(`Required user field ${field} is missing`);
+      }
+    }
+
+    // Validate role
+    const validRoles = ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST', 'PATIENT'];
+    if (!validRoles.includes(data.user.role)) {
+      throw new Error(`Invalid user role: ${data.user.role}`);
+    }
+
+    // Store token and user data
     setToken(data.token);
     setUser(data.user);
 
-    return data;
+    return {
+      token: data.token,
+      user: data.user
+    };
+
   } catch (error) {
     console.error('Login failed:', error);
-
+    
+    // Clear any existing auth data
     removeToken();
     removeUser();
-    
+
+    // Provide better error messages
     let errorMessage = 'Login failed. Please try again.';
-    if (error.response && error.response.data?.message) {
-      errorMessage = error.response.data.message || errorMessage;
+    if (error.response) {
+      errorMessage = error.response.data?.message || 
+                   error.response.data?.error || 
+                   errorMessage;
+    } else if (error.message) {
+      errorMessage = error.message;
     }
 
     throw new Error(errorMessage);

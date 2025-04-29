@@ -1,12 +1,12 @@
-/* Navbar Variables */
 :root {
-    --primary-color: #4a6bff;       /* Vibrant blue */
-    --secondary-color: #00d4a8;     /* Fresh teal */
-    --accent-color: #ff6b8b;        /* Energetic pink */
-    --dark-color: #2a2d3b;          /* Deep navy */
-    --light-color: #f8fafc;         /* Clean white */
-    --text-color: #2d3748;          /* Dark gray */
-  }
+  --primary-color: #3d898d;       /* Cyber Teal */
+  --secondary-color: #85ebd9;     /* Neon Mint */
+  --accent-color: #e2dddf;        /* Soft Rose Gray */
+  --dark-color: #2f404d;          /* Deep Steel */
+  --light-color: #b0acb0;         /* Muted Silver Gray */
+  --text-color: #e2dddf;          /* Soft Rose Gray */
+}
+
   
   /* Navbar Base Styles */
   .navbar {
@@ -228,3 +228,5 @@
       z-index: 1002;
     }
   }
+
+  
