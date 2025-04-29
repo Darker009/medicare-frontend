@@ -5,13 +5,13 @@ import { useAuth } from '../../auth/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const {user, logout} = useAuth();
+  const { user, logout } = useAuth();
   const navigation = useNavigate();
   const role = user?.role;
 
   const handleLogout = () => {
     logout();
-    Navigate('/login');
+    navigate('/login');
     setIsOpen(false);
   };
   const handleLinkClick = () => {
@@ -28,7 +28,7 @@ const Navbar = () => {
           <div className="navbar-logo">Medicare+</div>
           <div className="navbar-tagline">Your Health, Our Priority</div>
         </div>
-        
+
         <div className={`nav-links ${isOpen ? 'active' : ''}`}>
           <Link to="/" className="nav-link">Home</Link>
           <Link to="/services" className="nav-link">Services</Link>
@@ -36,11 +36,18 @@ const Navbar = () => {
           <Link to="/about" className="nav-link">About</Link>
           <Link to="/contact" className="nav-link">Contact</Link>
           <div className="auth-buttons">
-            <Link to="/login" className="nav-link login">Login</Link>
-            <Link to="/register" className="nav-link register">Register</Link>
+            {user ? (
+              <button onClick={handleLogout} className="nav-link logout">Logout</button>
+            ) : (
+              <>
+                <Link to="/login" className="nav-link login">Login</Link>
+                <Link to="/register" className="nav-link register">Register</Link>
+              </>
+            )}
           </div>
+
         </div>
-        
+
         <div className="menu-icon" onClick={toggleMenu} aria-label="Menu">
           <div className={`bar ${isOpen ? 'change' : ''}`}></div>
           <div className={`bar ${isOpen ? 'change' : ''}`}></div>
