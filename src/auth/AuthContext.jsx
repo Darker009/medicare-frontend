@@ -3,17 +3,17 @@ import React, { createContext, useContext, useState } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // null means not logged in
+  const [user, setUser] = useState(null); 
 
   const login = (userData) => {
-    setUser(userData); // store user data
+    setUser(userData); 
   };
 
   const logout = () => {
-    setUser(null); // clear user data
+    setUser(null); 
   };
 
-  const isAuthenticated = !!user; // true if user exists
+  const isAuthenticated = !!user; 
 
   return (
     <AuthContext.Provider value={{ user, login, logout, isAuthenticated }}>
@@ -22,5 +22,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// 3. Custom hook for easy access
 export const useAuth = () => useContext(AuthContext);
+
+export { AuthContext };

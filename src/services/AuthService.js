@@ -141,6 +141,8 @@ export const logout = async () => {
   }
 };
 
+
+
 const AuthService = {
   register,
   login,

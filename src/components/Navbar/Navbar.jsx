@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigation('/'); 
     setIsOpen(false);
   };
   const handleLinkClick = () => {
@@ -38,6 +38,7 @@ const Navbar = () => {
           <div className="auth-buttons">
             {user ? (
               <button onClick={handleLogout} className="nav-link logout">Logout</button>
+              
             ) : (
               <>
                 <Link to="/login" className="nav-link login">Login</Link>

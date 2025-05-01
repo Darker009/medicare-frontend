@@ -7,6 +7,10 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import ProtectedRoute from './routes/ProtectedRoute';
 import AdminDashboard from './pages/Admin/AdminDashboard';
+import PendingRequests from './pages/Admin/PendingRequests';
+import AdminProfile from './pages/Admin/AdminProfile';
+import DoctorDashboard from './pages/Doctor/DoctorDashboard'; 
+import DoctorProfile from './pages/Doctor/DoctorProfile';
 
 function App() {
   return (
@@ -20,7 +24,27 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               
-              <Route path="/admin/dashboard" element={<AdminDashboard/>}>
+              <Route path="/admin/dashboard" element={<AdminDashboard />}>
+                <Route index element={
+                  <div className="dashboard-overview">
+                    <h1>Welcome Admin Saheb</h1>
+                    <div className="stats-grid">
+                    </div>
+                  </div>
+                } />
+                <Route path="profile" element={<AdminProfile />} />
+                <Route path="pending-requests" element={<PendingRequests />} />
+              </Route>
+              <Route path="/doctor/dashboard" element={<DoctorDashboard />} >
+              <Route index element={
+                <div className='dashboard-overview'>
+                  <h1>Welcome Doctor Dashboard</h1>
+                  <div className="stats-grid">
+
+                  </div>
+                </div>
+              } />
+                <Route path="profile" element={<DoctorProfile/>} />
 
               </Route>
             </Routes>

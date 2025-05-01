@@ -5,9 +5,9 @@ import {
   FaAngleRight, FaHospital, FaCalendarAlt, FaProcedures, FaHourglassHalf 
 } from 'react-icons/fa';
 import { NavLink, Outlet } from 'react-router-dom';
-import './AdminDashboard.css';
+import './DoctorDashboard.css';
 
-const AdminDashboard = () => {
+const DoctorDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -17,7 +17,7 @@ const AdminDashboard = () => {
         <div className="sidebar-header">
           <div className="hospital-icon">
             <FaHospital className="icon" />
-            {sidebarOpen && <span className="hospital-name">Hospital Admin</span>}
+            {sidebarOpen && <span className="hospital-name">Hospital Doctor</span>}
           </div>
           <div className="toggle-button" onClick={toggleSidebar}>
             {sidebarOpen ? <FaAngleLeft /> : <FaAngleRight />}
@@ -66,4 +66,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default DoctorDashboard;
